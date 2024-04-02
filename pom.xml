@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>LottoJJR_Project</artifactId>
+    <artifactId>LottoJJR</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -25,9 +25,11 @@
         <mockito-core.version>4.9.0</mockito-core.version>
         <testcontainers.version>1.17.4</testcontainers.version>
         <wiremock-jre8.version>2.35.0</wiremock-jre8.version>
+        <awaitility.version>4.2.0</awaitility.version>
     </properties>
 
     <dependencies>
+        <!--        SPRING BOOT-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -41,7 +43,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- TEST CONTAINERS -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--          TEST CONTAINERS -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -54,18 +61,12 @@
             <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- MongoDB -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mongodb</artifactId>
             <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -91,13 +92,28 @@
             <version>${wiremock-jre8.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--  AWAITILITY -->
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <proc>none</proc>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -12,6 +12,7 @@ services:
       MONGO_INITDB_DATABASE: lotto-web
     volumes:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+
   mongo-express:
     image: mongo-express
     restart: always  #restart the container regardless of the exit status
