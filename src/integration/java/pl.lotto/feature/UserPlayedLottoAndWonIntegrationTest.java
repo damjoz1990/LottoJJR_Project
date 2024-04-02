@@ -1,14 +1,53 @@
 package pl.lotto.feature;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import pl.lotto.BaseIntegrationTest;
+import pl.lotto.domain.numbergenerator.RandomNumberGenerable;
+import pl.lotto.domain.numbergenerator.WinningNumbersGeneratorFacade;
+import pl.lotto.domain.numbergenerator.WinningNumbersNotFoundException;
+import pl.lotto.domain.numbergenerator.dto.WinningNumbersDto;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+import static org.awaitility.Awaitility.await;
 
 public class UserPlayedLottoAndWonIntegrationTest extends BaseIntegrationTest {
+
+    @Autowired
+    WinningNumbersGeneratorFacade winningNumbersGeneratorFacade;
 
     @Test
     public void should_user_win_and_system_should_generate_winners() {
 
         //    step 1: external service returns 6 random numbers (1,2,3,4,5,6)
+        //given
+        wireMockServer.stubFor(WireMock.get("/api/v.1.0/random?min=1&max=99&count=25")
+                .willReturn(WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withBody("""
+                                [1,2,3,4,5,6,7,8,9,82,83,84,85,86,97,87,11,22,33,44,55,66,77,88,99]""".trim())));
+
+        //then
+
+        LocalDateTime drawDate = LocalDateTime.of(2023, 2, 25, 12, 0,0);
+
+        await()
+                .atMost(Duration.ofSeconds(20))
+                .pollInterval(Duration.ofSeconds(1))
+                .until(() -> {
+                            try {
+                                return !winningNumbersGeneratorFacade.retrieveWinningNumberByDate(drawDate).getWinningNumbers().isEmpty();
+                            } catch (WinningNumbersNotFoundException e) {
+                                return false;
+                            }
+                        }
+
+                );
+
         //    step 2: user made POST /inputNumbers with 6 numbers (1, 2, 3, 4, 5, 6) at 16-11-2022 10:00 and system returned OK(200) with message: “success” and Ticket (DrawDate:19.11.2022 12:00 (Saturday), TicketId: sampleTicketId)
         //    step 3: system fetched winning numbers for draw date: 19.11.2022 12:00
         //    step 4: 3 days and 1 minute passed, and it is 1 minute after the draw date (19.11.2022 12:01)

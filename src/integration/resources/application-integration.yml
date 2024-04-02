@@ -1,4 +1,3 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb://admin:admin@localhost:27017/lotto-web0
+lotto:
+  number-generator:
+    lotteryRunOccurrence: "*/5 * * * * *"
