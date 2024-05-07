@@ -16,12 +16,13 @@ public class WinningNumberScheduler {
     private final WinningNumbersGeneratorFacade winningNumbersGeneratorFacade;
 
     //https://crontab.guru/ - website with cron editor
-    @Scheduled( cron = "${lotto.number-generator.lotteryRunOccurrence}")
-    public void generateWiningNumbers(){
-        log.info("winning number scheduler started");
+    @Scheduled(cron = "${lotto.number-generator.lotteryRunOccurrence}")
+    public WinningNumbersDto generateWinningNumbers() {
+        log.info("winning numbers scheduler started");
         WinningNumbersDto winningNumbersDto = winningNumbersGeneratorFacade.generateWinningNumbers();
-        System.out.println(winningNumbersDto.getWinningNumbers());
-        System.out.println(winningNumbersDto.getDate());
+        log.info(winningNumbersDto.getWinningNumbers());
+        log.info(winningNumbersDto.getDate());
+        return winningNumbersDto;
     }
 
 }
