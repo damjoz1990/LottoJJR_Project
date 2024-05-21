@@ -39,7 +39,8 @@ public class ResultCheckerFacade {
     }
 
     public ResultDto findByHash(String hash) {
-        Player player = playerRepository.findById(hash).orElseThrow(() -> new RuntimeException("Not found"));
+        Player player = playerRepository.findById(hash)
+                .orElseThrow(() -> new PlayerResultNotFoundException("Not found from id: " + hash));
         return ResultDto.builder()
                 .hash(hash)
                 .numbers(player.numbers())
