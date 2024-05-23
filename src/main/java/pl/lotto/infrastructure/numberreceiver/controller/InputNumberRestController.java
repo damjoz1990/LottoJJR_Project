@@ -10,6 +10,7 @@ import pl.lotto.domain.numberreceiver.NumberReceiverFacade;
 import pl.lotto.domain.numberreceiver.dto.NumberReceiverResponseDto;
 import pl.lotto.domain.numberreceiver.dto.TicketDto;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,16 +23,10 @@ public class InputNumberRestController  {
 
     private final NumberReceiverFacade numberReceiverFacade;
     @PostMapping("/inputNumbers")
-    public ResponseEntity<NumberReceiverResponseDto> inputNumbers(@RequestBody InputNumbersRequestDto requestDto){
+    public ResponseEntity<NumberReceiverResponseDto> inputNumbers(@RequestBody @Valid InputNumbersRequestDto requestDto){
         Set<Integer> collect = new HashSet<>(requestDto.inputNumbers());
         NumberReceiverResponseDto numberReceiverResponseDto = numberReceiverFacade.inputNumbers(collect);
         return ResponseEntity.ok(numberReceiverResponseDto);
     }
 
-//    @PostMapping("/inputNumbers")
-//    public ResponseEntity<NumberReceiverResponseDto> inputNumbers(@RequestBody InputNumbersRequestDto requestDto) {
-//        Set<Integer> distinctNumbers = new HashSet<>(requestDto.inputNumbers());
-//        NumberReceiverResponseDto numberReceiverResponseDto = numberReceiverFacade.inputNumbers(distinctNumbers);
-//        return ResponseEntity.ok(numberReceiverResponseDto);
-//    }
 }
