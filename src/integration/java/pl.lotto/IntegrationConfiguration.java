@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import pl.lotto.domain.AdjustableClock;
 
-import java.time.Clock;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;

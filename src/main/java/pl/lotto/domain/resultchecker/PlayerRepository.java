@@ -10,7 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PlayerRepository extends MongoRepository<Player, String> {
 
-    List<Player> findAll();
-
     Optional<Player> findById(String hash);
 }
